@@ -122,7 +122,9 @@ Create  a Vercel NextJS app that allow the user to view and interact with Stripe
         * Payment List
         * Payouts
 
-The app should have the following environment variable: 
-  *  Stripe secret key 
-  * Stripe publick key 
-  * Platform account id
+The app should have the following environment variable:
+  *  Stripe secret key
+  * Stripe public key
+
+## Deployment
+The app should be deployable to Vercel with proper environment variable configuration.

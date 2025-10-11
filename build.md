@@ -405,3 +405,46 @@ No images are required for this application. The UI will be entirely component-b
 - Demo assumes test mode; production would need webhook handlers
 - Generic error handling suitable for demos, not production
 - No pagination on account list (assumes <100 accounts)
+
+---
+
+## 7. Deployment to Vercel
+
+### Vercel Configuration
+- Next.js 14 is fully compatible with Vercel's platform
+- No additional configuration required beyond standard Next.js setup
+- `vercel.json` included for explicit framework detection
+
+### Deployment Steps
+
+1. **Push to Git Repository**
+   - Initialize git repository (if not already done)
+   - Push code to GitHub, GitLab, or Bitbucket
+
+2. **Connect to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Import Project"
+   - Select your git repository
+   - Vercel will auto-detect Next.js framework
+
+3. **Configure Environment Variables**
+   - In Vercel project settings, add environment variables:
+     - `STRIPE_SECRET_KEY` (secret key from Stripe Dashboard)
+     - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (publishable key from Stripe Dashboard)
+   - These variables are encrypted and secure in Vercel
+
+4. **Deploy**
+   - Click "Deploy"
+   - Vercel will build and deploy automatically
+   - Each git push will trigger automatic redeployment
+
+### Environment Variable Management
+- **Development**: Uses `.env.local` file (not committed to git)
+- **Production**: Uses Vercel Environment Variables dashboard
+- **Security**: Never commit `.env.local` or `.env` to version control
+
+### Post-Deployment
+- Vercel provides a production URL (e.g., `your-app.vercel.app`)
+- Custom domains can be added in project settings
+- Automatic HTTPS enabled
+- Global CDN distribution for optimal performance

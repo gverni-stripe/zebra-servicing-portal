@@ -237,6 +237,70 @@ npm run build
 npm start
 ```
 
+## Deploy to Vercel
+
+This application is optimized for deployment on Vercel.
+
+### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone)
+
+### Manual Deployment Steps
+
+1. **Push to Git Repository**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin <your-repo-url>
+   git push -u origin main
+   ```
+
+2. **Import to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Import Project"
+   - Select your git repository
+   - Vercel will automatically detect Next.js
+
+3. **Configure Environment Variables**
+
+   In Vercel project settings, add these environment variables:
+
+   | Variable | Value | Description |
+   |----------|-------|-------------|
+   | `STRIPE_SECRET_KEY` | `sk_test_51...` | Your Stripe secret key |
+   | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_test_51...` | Your Stripe publishable key |
+
+   **Important**: Use the same test mode keys from your local development.
+
+4. **Deploy**
+   - Click "Deploy"
+   - Vercel will build and deploy your application
+   - You'll receive a production URL (e.g., `your-app.vercel.app`)
+
+### Automatic Deployments
+
+Once connected to Vercel:
+- **Production**: Pushes to `main` branch automatically deploy to production
+- **Preview**: Pushes to other branches create preview deployments
+- **Environment Variables**: Managed in Vercel dashboard, not in code
+
+### Custom Domain (Optional)
+
+1. Go to your Vercel project settings
+2. Navigate to "Domains"
+3. Add your custom domain
+4. Follow DNS configuration instructions
+5. Vercel automatically provisions SSL certificates
+
+### Post-Deployment Checklist
+
+- ✅ Verify environment variables are set correctly
+- ✅ Test the production URL
+- ✅ Check all connected accounts load properly
+- ✅ Test embedded components functionality
+- ✅ Verify responsive design on mobile devices
+
 ## Additional Resources
 
 - [Stripe Connect Documentation](https://stripe.com/docs/connect)
