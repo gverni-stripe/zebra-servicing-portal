@@ -114,10 +114,13 @@ Create  a Vercel NextJS app that allow the user to view and interact with Stripe
   * requirements.currently_due: green emoji if this is empty / null, red emoji otherwise 
   * requirements.past_due: green emoji if this is empty / null, red emoji otherwise 
   * requiremeents.disabled_reason: value of this 
-  * A button to open the account. When clicked, the connected account details page is open
-* A connected account details page. This shows: 
+  * A "View Details" button to open the account. When clicked, the connected account details page is opened
+  * A yellow "Trigger Merchant Issue" button that makes a POST call to `https://api.stripe.com/v1/test_helpers/demo/merchant_issue` with:
+    * issue_type=additional_info
+    * account=The connected Account ID
+* A connected account details page. This shows:
     * A back button to go back to the connected account list page
-    * Three sections,each showing the following Embedded component
+    * Three sections, each showing the following Embedded component:
         * Notification Banner
         * Payment List
         * Payouts

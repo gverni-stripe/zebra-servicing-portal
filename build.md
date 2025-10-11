@@ -20,8 +20,9 @@ This demo application showcases Stripe's Embedded Components for platform accoun
 
 ### Key User Journeys
 1. **View Connected Accounts**: Platform admin views all connected accounts with status indicators (charges_enabled, payout_enabled, details_submitted, requirements)
-2. **Drill into Account Details**: Admin clicks on a connected account to view detailed information
-3. **Interact with Embedded Components**: Admin views and interacts with:
+2. **Trigger Merchant Issues**: Admin can trigger test merchant issues using the yellow "Trigger Merchant Issue" button to simulate account interventions
+3. **Drill into Account Details**: Admin clicks on a connected account to view detailed information
+4. **Interact with Embedded Components**: Admin views and interacts with:
    - Notification Banner (account-level alerts and requirements)
    - Payment List (payments processed by the connected account)
    - Payouts (payout history and details)
@@ -56,7 +57,8 @@ zebra-servicing-portal/
 │   │   ├── account/[id]/page.tsx       # Account details page
 │   │   ├── api/
 │   │   │   ├── accounts/route.ts       # List connected accounts
-│   │   │   └── session/route.ts        # Create embedded component sessions
+│   │   │   ├── session/route.ts        # Create embedded component sessions
+│   │   │   └── trigger-issue/route.ts  # Trigger merchant issues (test helper)
 │   │   └── layout.tsx                  # Root layout
 │   ├── components/
 │   │   ├── AccountCard.tsx             # Account list item
@@ -217,7 +219,44 @@ const accountSession = await stripe.accountSessions.create({
 }
 ```
 
-#### 3. Initialize Embedded Components
+#### 3. Trigger Merchant Issue (Test Helper)
+**Endpoint**: `/api/trigger-issue`
+**Method**: POST
+**Request Body**:
+```json
+{
+  "accountId": "acct_xxx"
+}
+```
+
+**Server Action**:
+```typescript
+// Direct HTTP call to Stripe test helper API
+const formData = new URLSearchParams();
+formData.append('issue_type', 'additional_info');
+formData.append('account', accountId);
+
+const response = await fetch('https://api.stripe.com/v1/test_helpers/demo/merchant_issue', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${secretKey}`,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: formData.toString(),
+});
+```
+
+**Response**:
+```json
+{
+  "success": true,
+  "data": { /* Stripe response */ }
+}
+```
+
+**Purpose**: Triggers a test merchant intervention on the connected account, useful for demonstrating how the notification banner responds to account issues.
+
+#### 4. Initialize Embedded Components
 **Frontend Flow**:
 ```typescript
 import { loadConnectAndInitialize } from '@stripe/connect-js';
@@ -317,9 +356,11 @@ User Journey: View Connected Account Details
 - **Status Indicators**: Visual feedback using emoji indicators (✅/❌) for quick scanning of account health
 - **Card-Based Layout**: Account list uses card grid for easy scanning and clear visual hierarchy
 - **Responsive Grid System**: 1 column mobile, 2 columns tablet, 3 columns desktop for optimal space usage
-- **Color Coding**: Green for healthy/complete statuses, red for issues/incomplete, neutral for informational
+- **Color Coding**: Green for healthy/complete statuses, red for issues/incomplete, yellow for testing/actions, neutral for informational
+- **Action Buttons**: Two buttons per account card - indigo "View Details" button and yellow "Trigger Merchant Issue" button for testing interventions
+- **Feedback Messages**: Success (green) and error (red) messages that auto-dismiss after 3 seconds for better UX
 - **Clear Navigation**: Back button on details page with breadcrumb-style context
-- **Loading States**: Skeleton screens and loading spinners during API calls for perceived performance
+- **Loading States**: Skeleton screens and loading spinners during API calls for perceived performance, disabled button states during actions
 - **Component Sections**: Clear visual separation between the three embedded components with headers
 - **Accessibility**: Semantic HTML, proper heading hierarchy, keyboard navigation support, ARIA labels for status indicators
 - **Typography**: Clear hierarchy with larger text for account names, smaller for IDs and metadata
