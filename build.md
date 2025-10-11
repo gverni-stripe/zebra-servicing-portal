@@ -98,7 +98,6 @@ zebra-servicing-portal/
      ```
      STRIPE_SECRET_KEY=sk_test_...
      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-     STRIPE_PLATFORM_ACCOUNT_ID=acct_...
      ```
 
 4. **Configure Stripe Client**
@@ -355,14 +354,12 @@ User Journey: View Connected Account Details
 3. **Gather Required API Keys**
    - Platform Secret Key: Dashboard > Developers > API keys > Secret key
    - Platform Publishable Key: Dashboard > Developers > API keys > Publishable key
-   - Platform Account ID: Dashboard > Settings > Account details > Account ID
 
 4. **Set Up Environment Variables**
    - After project initialization, create `.env.local` with:
      ```
      STRIPE_SECRET_KEY=sk_test_51xxxxx
      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51xxxxx
-     STRIPE_PLATFORM_ACCOUNT_ID=acct_xxxxx
      ```
    - Never commit `.env.local` to version control
 
@@ -373,7 +370,6 @@ User Journey: View Connected Account Details
 | `npm: command not found` | Node.js not installed | Install Node.js from nodejs.org |
 | `Module not found: stripe` | Dependencies not installed | Run `npm install` |
 | `Invalid API Key` | Wrong key in .env.local | Verify key starts with `sk_test_` |
-| `Account not found` | Wrong account ID | Check platform account ID in Stripe Dashboard |
 | Port 3000 already in use | Another process using port | Kill process or use different port: `npm run dev -- -p 3001` |
 | Embedded components not loading | Client secret expired | Account sessions expire after a few hours; refresh page |
 

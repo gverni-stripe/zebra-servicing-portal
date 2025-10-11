@@ -38,21 +38,13 @@ Copy the `.env.local` file and add your Stripe credentials:
 # Get these from https://dashboard.stripe.com/test/apikeys
 STRIPE_SECRET_KEY=sk_test_51xxxxx
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_51xxxxx
-
-# Get this from https://dashboard.stripe.com/settings/account
-STRIPE_PLATFORM_ACCOUNT_ID=acct_xxxxx
 ```
 
 **Where to find your credentials:**
 
-1. **API Keys**:
-   - Go to [Stripe Dashboard > Developers > API keys](https://dashboard.stripe.com/test/apikeys)
-   - Use **Test mode** keys for development
-   - Copy both the Secret key (starts with `sk_test_`) and Publishable key (starts with `pk_test_`)
-
-2. **Platform Account ID**:
-   - Go to [Stripe Dashboard > Settings > Account details](https://dashboard.stripe.com/settings/account)
-   - Copy your Account ID (starts with `acct_`)
+- Go to [Stripe Dashboard > Developers > API keys](https://dashboard.stripe.com/test/apikeys)
+- Use **Test mode** keys for development
+- Copy both the Secret key (starts with `sk_test_`) and Publishable key (starts with `pk_test_`)
 
 ### 3. Create Test Connected Accounts (Optional)
 
