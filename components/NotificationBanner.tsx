@@ -13,9 +13,6 @@ export default function NotificationBanner({ stripeConnectInstance }: Notificati
     if (!stripeConnectInstance || !containerRef.current) return;
 
     const notificationBanner = stripeConnectInstance.create('notification-banner');
-    notificationBanner.setOnNotificationBannerClosed(() => {
-      console.log('Notification banner closed');
-    });
 
     containerRef.current.innerHTML = '';
     containerRef.current.appendChild(notificationBanner);
