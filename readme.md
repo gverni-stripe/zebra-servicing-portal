@@ -76,16 +76,33 @@ The home page displays all connected accounts in a card grid. Each card shows:
   - **Currently Due**: Requirements needing attention (✅ = none)
   - **Past Due**: Overdue requirements (✅ = none)
 - Disabled reason (if applicable)
+- **Trigger Merchant Issue** button:
+  - Enabled (yellow) when details_submitted is true
+  - Disabled (greyed out) when details_submitted is false
+  - Tooltip displayed on hover explaining why the button is disabled
 
 ### Viewing Account Details
 
 Click "View Details" on any account card to see:
 
 1. **Notification Banner**: Displays important alerts and requirements for the account
+   - If the account has details_submitted set to false, a disclaimer is shown explaining that the notification banner will not display any notifications until account details are submitted
 2. **Payments**: Lists all payments processed by the connected account with refund management
 3. **Payouts**: Shows payout history and details
 
 Use the "Back to Accounts" button to return to the list view.
+
+### Testing Merchant Issues
+
+The "Trigger Merchant Issue" button on each account card allows you to test the notification banner functionality:
+
+- **Available when**: The account has `details_submitted` set to `true`
+- **Disabled when**: The account has `details_submitted` set to `false`
+  - A tooltip explains: "Cannot trigger intervention on accounts without details submitted"
+  - The button appears greyed out and is not clickable
+- **Action**: When clicked (and enabled), creates a test merchant issue that should appear in the account's notification banner
+
+**Important**: Accounts with `details_submitted: false` will not display notifications in the notification banner, regardless of whether requirements exist. This is Stripe's expected behavior as these accounts haven't completed their initial onboarding.
 
 ## Key Integration Concepts
 

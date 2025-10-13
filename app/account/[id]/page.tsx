@@ -13,12 +13,27 @@ export default function AccountDetailsPage() {
   const accountId = params.id as string;
 
   const [stripeConnectInstance, setStripeConnectInstance] = useState<any>(null);
+  const [accountData, setAccountData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function initializeStripeConnect() {
       try {
+        // Fetch account data
+        const accountResponse = await fetch('/api/accounts');
+        if (!accountResponse.ok) {
+          throw new Error('Failed to fetch account data');
+        }
+        const accounts = await accountResponse.json();
+        const account = accounts.find((acc: any) => acc.id === accountId);
+
+        if (!account) {
+          throw new Error('Account not found');
+        }
+
+        setAccountData(account);
+
         const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
         if (!publishableKey) {
@@ -97,7 +112,10 @@ export default function AccountDetailsPage() {
       </div>
 
       <div className="space-y-6">
-        <NotificationBanner stripeConnectInstance={stripeConnectInstance} />
+        <NotificationBanner
+          stripeConnectInstance={stripeConnectInstance}
+          detailsSubmitted={accountData?.details_submitted ?? true}
+        />
         <PaymentsList stripeConnectInstance={stripeConnectInstance} />
         <PayoutsList stripeConnectInstance={stripeConnectInstance} />
       </div>

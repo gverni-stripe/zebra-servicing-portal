@@ -15,6 +15,7 @@ export default function AccountCard({ account }: AccountCardProps) {
   const pastDueEmpty = !account.requirements?.past_due || account.requirements.past_due.length === 0;
   const [isTriggering, setIsTriggering] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const canTriggerIssue = account.details_submitted;
 
   const handleTriggerIssue = async () => {
     setIsTriggering(true);
@@ -94,13 +95,22 @@ export default function AccountCard({ account }: AccountCardProps) {
           View Details
         </Link>
 
-        <button
-          onClick={handleTriggerIssue}
-          disabled={isTriggering}
-          className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isTriggering ? 'Triggering...' : 'Trigger Merchant Issue'}
-        </button>
+        <div className="relative group">
+          <button
+            onClick={handleTriggerIssue}
+            disabled={isTriggering || !canTriggerIssue}
+            className="w-full text-center bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-500"
+            title={!canTriggerIssue ? "Cannot trigger intervention on accounts without details submitted" : ""}
+          >
+            {isTriggering ? 'Triggering...' : 'Trigger Merchant Issue'}
+          </button>
+          {!canTriggerIssue && (
+            <div className="invisible group-hover:visible absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap z-10 pointer-events-none">
+              Cannot trigger intervention on accounts without details submitted
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+            </div>
+          )}
+        </div>
 
         {message && (
           <p className={`text-sm text-center ${message.startsWith('✓') ? 'text-green-600' : 'text-red-600'}`}>
