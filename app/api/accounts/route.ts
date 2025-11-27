@@ -3,11 +3,13 @@ import { stripe } from '@/lib/stripe';
 
 export async function GET() {
   try {
-    const accounts = await stripe.accounts.list({
-      limit: 100,
-    });
+    // Use auto-pagination to fetch all accounts
+    const allAccounts = [];
+    for await (const account of stripe.accounts.list({ limit: 100 })) {
+      allAccounts.push(account);
+    }
 
-    return NextResponse.json(accounts.data);
+    return NextResponse.json(allAccounts);
   } catch (error) {
     console.error('Error fetching accounts:', error);
     return NextResponse.json(
